@@ -24,7 +24,7 @@ class UnemployRateDataset(Dataset):
 def extract_data(dataset, pays, prop, scaler=None):
     
     if sum(prop) != 1.:
-        raise ValueError("The proportion mus sum to 1") 
+        raise ValueError("The proportion must sum to 1") 
     prop = np.cumsum(prop)
     
     # Extract country 
