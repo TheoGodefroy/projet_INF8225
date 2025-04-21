@@ -66,7 +66,7 @@ def plot_prediction(model, data, past_data, seq_len, scaler):
         prediction = scaler.inverse_transform(np.array(prediction).reshape(-1,1)).reshape(-1)
         
     fig, ax = plt.subplots(1,1)
-    ax.plot(prediction, label="Predictiom")
+    ax.plot(prediction, label="Prediction")
     ax.plot(data, label="True value")
     plt.legend(loc="best")
     
