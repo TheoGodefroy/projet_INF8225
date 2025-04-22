@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+import random
 
 def rmse(pred, target):
     return np.sqrt(((pred - target)**2 ).sum() / len(target))
@@ -70,3 +71,8 @@ def plot_prediction(model, data, past_data, seq_len, scaler):
     ax.plot(data, label="True value")
     plt.legend(loc="best")
     
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)

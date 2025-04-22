@@ -22,7 +22,7 @@ class TrainDataset(Dataset):
         
 
 
-def extract_data(dataset, pays, prop, type, ville = None, scaler=None):
+def extract_data(dataset, pays, prop, type, saison, ville = None, scaler=None):
     
     if sum(prop) != 1.:
         raise ValueError("The proportion must sum to 1") 
@@ -55,17 +55,22 @@ def extract_data(dataset, pays, prop, type, ville = None, scaler=None):
         data = data[(data["City"] == ville) & (data["Country"] == pays)].reset_index(drop=True)
         # On mets les données en ordre chronologique
         data = data.sort_values(by='Time Period')
-        '''
-        # Comme les données du chômage étaient désaisonnalisées, on effectue le même traitement pour ces données 
-        # qui ont clairement une saisonnalité sur les 12 mois de l'année
+        
+        if saison == False : 
+            # Comme les données du chômage étaient désaisonnalisées, on effectue le même traitement pour ces données 
+            # qui ont clairement une saisonnalité sur les 12 mois de l'année
 
-        stl = STL(data['AvgTemperature'], period = 12, robust = True)
-        res = stl.fit()
+            stl = STL(data['AvgTemperature'], period = 12, robust = True)
+            res = stl.fit()
 
-        data['Saisonnalité'] = res.seasonal
-        data['AvgTemperature Adjusted'] = data['AvgTemperature'] - data['Saisonnalité']
-        '''
-        data = np.array(data['AvgTemperature'], dtype=np.float32)
+            data['Saisonnalité'] = res.seasonal
+            data['AvgTemperature Adjusted'] = data['AvgTemperature'] - data['Saisonnalité']
+            
+            data = np.array(data['AvgTemperature Adjusted'], dtype=np.float32)
+        
+        elif saison == True : 
+            
+            data = np.array(data['AvgTemperature'], dtype=np.float32)
         
     else : 
         print('Type de données non valide')
