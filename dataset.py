@@ -22,7 +22,7 @@ class TrainDataset(Dataset):
         
 
 
-def extract_data(dataset, pays, prop, type, saison, ville = None, scaler=None):
+def extract_data(dataset, pays, prop, type, saison = None, ville = None, scaler=None):
     
     if sum(prop) != 1.:
         raise ValueError("The proportion must sum to 1") 
