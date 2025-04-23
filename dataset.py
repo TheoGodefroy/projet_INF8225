@@ -29,7 +29,7 @@ def extract_data(dataset, pays, prop, type, saison = None, ville = None, scaler=
     prop = np.cumsum(prop)
     
     if type == 'chomage' : 
-        print('Type : chomage')
+        #print('Type : chomage')
         
         # Extract country 
         data = dataset[dataset["REF_AREA"] == pays].copy()
@@ -41,7 +41,7 @@ def extract_data(dataset, pays, prop, type, saison = None, ville = None, scaler=
         data = np.array(data["OBS_VALUE"], dtype=np.float32)
 
     elif type == 'temperature' :
-        print('Type : temperature')
+        #print('Type : temperature')
         
         # On transforme les données pour qu'elles soient des moyennes mensuelle plutôt que des moyennes quotidiennes
         data = dataset.copy()
@@ -55,8 +55,7 @@ def extract_data(dataset, pays, prop, type, saison = None, ville = None, scaler=
         data = data[(data["City"] == ville) & (data["Country"] == pays)].reset_index(drop=True)
         # On mets les données en ordre chronologique
         data = data.sort_values(by='Time Period')
-        
-        if saison == False : 
+        if not saison :
             # Comme les données du chômage étaient désaisonnalisées, on effectue le même traitement pour ces données 
             # qui ont clairement une saisonnalité sur les 12 mois de l'année
 
@@ -68,8 +67,7 @@ def extract_data(dataset, pays, prop, type, saison = None, ville = None, scaler=
             
             data = np.array(data['AvgTemperature Adjusted'], dtype=np.float32)
         
-        elif saison == True : 
-            
+        else: 
             data = np.array(data['AvgTemperature'], dtype=np.float32)
         
     else : 

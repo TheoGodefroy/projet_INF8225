@@ -10,7 +10,7 @@ def mae(pred, target):
     return (np.abs(pred - target)).sum() / len(target)
 
 def mape(pred, target):
-    return (np.abs((pred - target) / target)).sum() / len(target)
+    return (np.abs((pred - target) / target)).sum() * 100 / len(target)
 
 
 def predic_timeserie(model, data, past_data, seq_len):
